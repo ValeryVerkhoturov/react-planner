@@ -91,6 +91,10 @@ Developed @ [CVDLAB][cvdlab]
 
 Your contributions (issues and pull request) are very appreciated!
 
+## Requirements
+
+Node.js 16
+
 ## Contributors
 
  - [JikkuJose](https://github.com/JikkuJose)

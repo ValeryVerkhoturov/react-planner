@@ -26,7 +26,7 @@ module.exports = (env, self) => {
     },
     devtool: isProduction ? 'source-map' : 'eval',
     devServer: {
-      open: true,
+      open: false,
       port: port,
       contentBase: path.join(__dirname, './dist'),
     },
