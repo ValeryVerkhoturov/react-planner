@@ -1,7 +1,7 @@
 import * as Three from 'three';
 import React from 'react';
 
-const WIDTH =  100;
+const WIDTH =  110;
 const DEPTH =  140;
 const HEIGHT = 100;
 
@@ -27,6 +27,15 @@ function makeObjectMaxLOD() {
   for(let dx=-0.25;dx<=0.25;dx+=0.5)
   {
     for(let dz=-0.25;dz<=0.25;dz+=0.5)
+    {
+      let nut = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.8,6),black);
+      nut.position.set(dx,1.4,dz);
+      canteen_table.add(nut);
+    }
+  }
+  for(let dz=-0.25;dz<=0.25;dz+=0.5)
+  {
+    for(let dx=-0.25;dx<=0.25;dx+=0.5)
     {
       let nut = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.8,6),black);
       nut.position.set(dx,1.4,dz);
@@ -63,6 +72,16 @@ function makeObjectMaxLOD() {
       canteen_table.add(leg);
     }
   }
+  for(let gz=-3;gz<=3;gz+=6)
+  {
+    for(let gx=7;gx>=-7;gx-=14)
+    {
+      let leg = new Three.Mesh(new Three.BoxGeometry(1,3,1),grey);
+      leg.rotation.y=0.5*Math.PI;
+      leg.position.set(gx,-2,gz);
+      canteen_table.add(leg);
+    }
+  }
 
   //legs base
   for(let fx=-3;fx<=3;fx+=6)
@@ -91,6 +110,32 @@ function makeObjectMaxLOD() {
       canteen_table.add(baseNut2);
     }
   }
+  for(let fz=-3;fz<=3;fz+=6)
+  {
+    for(let fx=8;fx>=-8;fx-=16)
+    {
+      let legBase = new Three.Mesh(new Three.BoxGeometry(1,0.25,3),grey);
+      legBase.rotation.y=0.5*Math.PI;
+      legBase.position.set(fx+1,-3.5,fz);
+      canteen_table.add(legBase);
+
+      // base nuts
+      let baseNut1 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.3,6),black);
+      baseNut1.position.set(fx-1,-3.5,fz);
+      baseNut1.position.set(fx+2,-3.5,fz);
+      canteen_table.add(baseNut1);
+
+      if(fx>0)
+      {
+        legBase.position.set(fx-1,-3.5,fz);
+        baseNut1.position.set(fx-2,-3.5,fz);
+      }
+
+      let baseNut2 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.3,6),black);
+      baseNut2.position.set(fx,-3.5,fz);
+      canteen_table.add(baseNut2);
+    }
+  }
 
   // chair back
   for(let fsx=-3;fsx<=3;fsx+=6)
@@ -99,6 +144,16 @@ function makeObjectMaxLOD() {
     {
       let chairBack = new Three.Mesh(new Three.BoxGeometry(4,0.5,2.5),brown);
       chairBack.rotation.x=0.5*Math.PI;
+      chairBack.position.set(fsx,2.5,fsz);
+      canteen_table.add(chairBack);
+    }
+  }
+  for(let fsz=-3;fsz<=3;fsz+=6)
+  {
+    for(let fsx=-9.24;fsx<=9.24;fsx+=18.48)
+    {
+      let chairBack = new Three.Mesh(new Three.BoxGeometry(2.5,0.5,4),brown);
+      chairBack.rotation.z=0.5*Math.PI;
       chairBack.position.set(fsx,2.5,fsz);
       canteen_table.add(chairBack);
     }
@@ -148,10 +203,65 @@ function makeObjectMaxLOD() {
       }
     }
   }
+  for(let fbz=-4.5;fbz<=4.5;fbz+=9)
+  {
+    for(let fbx=-9.45;fbx<=9.45;fbx+=18.9)
+    {
+      // chair support bar
+      let support1 = new Three.Mesh(new Three.BoxGeometry(4,0.125,0.25),grey);
+      support1.rotation.z=0.5*Math.PI;
+      support1.position.set(fbx,1.6,fbz);
+      canteen_table.add(support1);
+
+      let support2 = new Three.Mesh(new Three.BoxGeometry(4,0.125,0.25),grey);
+      support2.rotation.z=0.5*Math.PI;
+      support2.position.set(fbx,1.6,fbz-3);
+      canteen_table.add(support2);
+
+      //nut back chair
+      let nutBack1 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.6,6),black);
+      nutBack1.rotation.z=0.5*Math.PI;
+      nutBack1.position.set(fbx-0.2,2.5,fbz);
+      canteen_table.add(nutBack1);
+
+      let nutBack2 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.6,6),black);
+      nutBack2.rotation.z=0.5*Math.PI;
+      nutBack2.position.set(fbx-0.2,2.5,fbz-3);
+      canteen_table.add(nutBack2);
+
+      if(fbz<0)
+      {
+        support2.position.set(fbx,1.6,fbz+3);
+        nutBack2.position.set(fbx-0.2,2.5,fbz+3);
+        if(fbx<0)
+          nutBack2.position.set(fbx+0.2,2.5,fbz+3);
+      }
+
+      if(fbx<0)
+      {
+        nutBack1.position.set(fbx+0.2,2.5,fbz);
+
+        if(fbz>0)
+          nutBack2.position.set(fbx+0.2,2.5,fbz-3);
+
+      }
+    }
+  }
 
   for(let fdx=-3;fdx<=3;fdx+=6)
   {
     for(let fdz=-7;fdz<=7;fdz+=14)
+    {
+      // seat chair
+      let seat = new Three.Mesh(new Three.BoxGeometry(4,0.5,4),brown);
+      seat.rotation.y=0.5*Math.PI;
+      seat.position.set(fdx,-0.25,fdz);
+      canteen_table.add(seat);
+    }
+  }
+  for(let fdz=-3;fdz<=3;fdz+=6)
+  {
+    for(let fdx=-7;fdx<=7;fdx+=14)
     {
       // seat chair
       let seat = new Three.Mesh(new Three.BoxGeometry(4,0.5,4),brown);
@@ -201,6 +311,46 @@ function makeObjectMaxLOD() {
       }
     }
   }
+  for(let fbsz=-4.5;fbsz<=4.5;fbsz+=9)
+  {
+    for(let fbsx=-9;fbsx<=9;fbsx+=18)
+    {
+      // seat support
+      let seatSupport1 = new Three.Mesh(new Three.BoxGeometry(1,0.125,0.25),grey);
+      seatSupport1.position.set(fbsx,-0.35,fbsz);
+      canteen_table.add(seatSupport1);
+
+      let seatSupport2 = new Three.Mesh(new Three.BoxGeometry(1,0.125,0.25),grey);
+      seatSupport2.position.set(fbsx,-0.35,fbsz-3);
+      canteen_table.add(seatSupport2);
+
+      // seat nuts
+      let seatNut1 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.8,6),black);
+      seatNut1.position.set(fbsx-2,-0.35,fbsz);
+      canteen_table.add(seatNut1);
+
+      let seatNut2 = new Three.Mesh(new Three.CylinderGeometry(0.1,0.1,0.8,6),black);
+      seatNut2.position.set(fbsx-2,-0.35,fbsz-3);
+      canteen_table.add(seatNut2);
+
+      if(fbsz<0)
+      {
+        seatSupport2.position.set(fbsx,-0.35,fbsz+3);
+        seatNut2.position.set(fbsx-2,-0.35,fbsz+3);
+        if(fbsx<0)
+          seatNut2.position.set(fbsx+2,-0.35,fbsz+3);
+      }
+
+      if(fbsx<0)
+      {
+        seatNut1.position.set(fbsx+2,-0.35,fbsz);
+
+        if(fbsz>0)
+          seatNut2.position.set(fbsx+2,-0.35,fbsz-3);
+
+      }
+    }
+  }
 
   return canteen_table
 }
@@ -234,6 +384,24 @@ function makeObjectMinLOD() {
   axis3.position.set(0,-1,7);
   canteen_table.add(axis3);
 
+  // central axis
+  let axis4 = new Three.Mesh(new Three.BoxGeometry(1,15,1),grey);
+  axis4.rotation.z=0.5*Math.PI;
+  axis4.position.set(0,-1,0);
+  canteen_table.add(axis4);
+
+  //axis
+  let axis5 = new Three.Mesh(new Three.BoxGeometry(1,10,1),grey);
+  axis5.rotation.x=0.5*Math.PI;
+  axis5.position.set(-7,-1,0);
+  canteen_table.add(axis5);
+
+  //axis
+  let axis6 = new Three.Mesh(new Three.BoxGeometry(1,10,1),grey);
+  axis6.rotation.x=0.5*Math.PI;
+  axis6.position.set(7,-1,0);
+  canteen_table.add(axis6);
+
   //legs
   for(let gx=-3;gx<=3;gx+=6)
   {
@@ -245,6 +413,17 @@ function makeObjectMinLOD() {
       canteen_table.add(leg);
     }
   }
+  for(let gz=-3;gz<=3;gz+=6)
+  {
+    for(let gx=7;gx>=-7;gx-=14)
+    {
+      let leg = new Three.Mesh(new Three.BoxGeometry(1,3,1),grey);
+      leg.rotation.y=0.5*Math.PI;
+      leg.position.set(gx,-2,gz);
+      canteen_table.add(leg);
+    }
+  }
+
 
   //legs base
   for(let fx=-3;fx<=3;fx+=6)
@@ -260,6 +439,19 @@ function makeObjectMinLOD() {
         legBase.position.set(fx,-3.5,fz-1);
     }
   }
+  for(let fz=-3;fz<=3;fz+=6)
+  {
+    for(let fx=8;fx>=-8;fx-=16)
+    {
+      let legBase = new Three.Mesh(new Three.BoxGeometry(1,0.25,3),grey);
+      legBase.rotation.y=0.5*Math.PI;
+      legBase.position.set(fx+1,-3.5,fz);
+      canteen_table.add(legBase);
+
+      if(fx>0)
+        legBase.position.set(fx-1,-3.5,fz);
+    }
+  }
 
   // chair back
   for(let fsx=-3;fsx<=3;fsx+=6)
@@ -272,12 +464,22 @@ function makeObjectMinLOD() {
       canteen_table.add(chairBack);
     }
   }
+  for(let fsz=-3;fsz<=3;fsz+=6)
+  {
+    for(let fsx=-9.24;fsx<=9.24;fsx+=18.48)
+    {
+      let chairBack = new Three.Mesh(new Three.BoxGeometry(2.5,0.5,4),brown);
+      chairBack.rotation.z=0.5*Math.PI;
+      chairBack.position.set(fsx,2.5,fsz);
+      canteen_table.add(chairBack);
+    }
+  }
 
+  // chair support bar
   for(let fbx=-4.5;fbx<=4.5;fbx+=9)
   {
     for(let fbz=-9.45;fbz<=9.45;fbz+=18.9)
     {
-      // chair support bar
       let support1 = new Three.Mesh(new Three.BoxGeometry(0.25,0.125,4),grey);
       support1.rotation.x=0.5*Math.PI;
       support1.position.set(fbx,1.6,fbz);
@@ -292,10 +494,39 @@ function makeObjectMinLOD() {
         support2.position.set(fbx+3,1.6,fbz);
     }
   }
+  for(let fbz=-4.5;fbz<=4.5;fbz+=9)
+  {
+    for(let fbx=-9.45;fbx<=9.45;fbx+=18.9)
+    {
+      let support1 = new Three.Mesh(new Three.BoxGeometry(4,0.125,0.25),grey);
+      support1.rotation.z=0.5*Math.PI;
+      support1.position.set(fbx,1.6,fbz);
+      canteen_table.add(support1);
+
+      let support2 = new Three.Mesh(new Three.BoxGeometry(4,0.125,0.25),grey);
+      support2.rotation.z=0.5*Math.PI;
+      support2.position.set(fbx,1.6,fbz-3);
+      canteen_table.add(support2);
+
+      if(fbz<0)
+        support2.position.set(fbx,1.6,fbz+3);
+    }
+  }
 
   for(let fdx=-3;fdx<=3;fdx+=6)
   {
     for(let fdz=-7;fdz<=7;fdz+=14)
+    {
+      // seat chair
+      let seat = new Three.Mesh(new Three.BoxGeometry(4,0.5,4),brown);
+      seat.rotation.y=0.5*Math.PI;
+      seat.position.set(fdx,-0.25,fdz);
+      canteen_table.add(seat);
+    }
+  }
+  for(let fdz=-3;fdz<=3;fdz+=6)
+  {
+    for(let fdx=-7;fdx<=7;fdx+=14)
     {
       // seat chair
       let seat = new Three.Mesh(new Three.BoxGeometry(4,0.5,4),brown);
@@ -322,20 +553,37 @@ function makeObjectMinLOD() {
         seatSupport2.position.set(fbsx+3,-0.35,fbsz);
     }
   }
+  for(let fbsz=-4.5;fbsz<=4.5;fbsz+=9)
+  {
+    for(let fbsx=-9;fbsx<=9;fbsx+=18)
+    {
+      // seat support
+      let seatSupport1 = new Three.Mesh(new Three.BoxGeometry(1,0.125,0.25),grey);
+      seatSupport1.position.set(fbsx,-0.35,fbsz);
+      canteen_table.add(seatSupport1);
+
+      let seatSupport2 = new Three.Mesh(new Three.BoxGeometry(1,0.125,0.25),grey);
+      seatSupport2.position.set(fbsx,-0.35,fbsz-3);
+      canteen_table.add(seatSupport2);
+
+      if(fbsz<0)
+        seatSupport2.position.set(fbsx,-0.35,fbsz+3);
+    }
+  }
 
   return canteen_table
 }
 
 
 export default {
-  name: 'canteen table',
+  name: 'canteen table with 8 chairs',
   prototype: 'items',
 
   info: {
     tag: ['furnishings', 'wood'],
-    title: 'canteen table',
-    description: 'canteen table',
-    image: require('./canteen_table.png')
+    title: 'canteen table with 8 chairs',
+    description: 'canteen table with 8 chairs',
+    image: require('./canteen_table_with_8_chairs.png')
   },
 
   properties: {
@@ -359,15 +607,14 @@ export default {
     }
 
     return (
-
       <g transform={ `translate(${-WIDTH / 2},${-DEPTH / 2})`}>
         <rect key='1' x='0' y='0' width={WIDTH} height={DEPTH}
-          style={{stroke: element.selected ? '#0096fd' : '#000', strokeWidth: '2px', fill: '#84e1ce'}}/>
+              style={{stroke: element.selected ? '#0096fd' : '#000', strokeWidth: '2px', fill: '#84e1ce'}}/>
         <text key='2' x='0' y='0'
               transform={`translate(${WIDTH / 2}, ${DEPTH / 2}) scale(1,-1) rotate(${textRotation})`}
-          style={{textAnchor: 'middle', fontSize: '11px'}}>
-              {element.type}
-          </text>
+              style={{textAnchor: 'middle', fontSize: '11px'}}>
+          {element.type}
+        </text>
       </g>
     )
   },
